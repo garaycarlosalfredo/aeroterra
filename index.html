@@ -1,68 +1,98 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS API for JavaScript Tutorials: Display a map</title>
+    <!--Mi codigo JS-->
+    <script src="./env/env.js"></script>
+    <script src="./js/index.js"></script>
+    <!--Style -->
+    <style>
+        html,
+        body,
+        #viewDiv {
+          padding: 0;
+          margin: 0;
+          height: 100%;
+          width: 100%;
+        }
+    </style>
+    
+    <!--Reference-->
     <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.21/"></script>
+    
+    <!--Module-->
+    <script>
+      require([
+            "esri/config",
+            "esri/Map", 
+            "esri/views/MapView",
+            //Modulos para ver las calles
+            "esri/Basemap",
+            "esri/layers/VectorTileLayer",
+            "esri/layers/TileLayer",
+        ], function (
+            esriConfig,
+            Map, 
+            MapView,
+            //Modulos para ver las calles
+            Basemap, 
+            VectorTileLayer, 
+            TileLayer
+            ) {
 
-    <!--API KEY-->    
-    <script src="./env/env.js"></script>
+        esriConfig.apiKey = key;
 
-    <!--JS-->
-    <script src="./js/index.js"></script>
+        //Creo la capa del vector
+        const vectorTileLayer = new VectorTileLayer({
+            portalItem: {
+            id: "6976148c11bd497d8624206f9ee03e30" // Forest and Parks Canvas
+            },
+            opacity: .75
+        });
+
+        //Creo una imagen del vetor 
+        const imageTileLayer = new TileLayer({
+            portalItem: {
+            id: "1b243539f4514b6ba35e7d995890db1d" // World Hillshade
+            }
+        });
+
+        //Agrego las capas base del mapa
+        const basemap = new Basemap({
+            baseLayers: [
+
+            imageTileLayer,
+            vectorTileLayer
+
+            ]
+        });
 
 
-    <title>Aeroterra</title>
-    </head>
-    <body>
-        <h1>Hello, world!</h1>
+        //Create Map
+        const map = new Map({
+            basemap: basemap,//Base de la capa creada para las lineas
+          //basemap: "arcgis-topographic" // Basemap layer service
+        });
 
-        <!-- Optional JavaScript; choose one of the two! -->
+        //Create Map View
+        const view = new MapView({
+          map: map,
+          center: [-118.805, 34.027], // Longitude, latitude
+          zoom: 13, // Zoom level
+          container: "viewDiv" // Div element
+        });
 
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-        <!-- Option 2: Separate Popper and Bootstrap JS -->
-        <!--
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-        -->
-
-        <!-- Button trigger modal -->
+      });
+    </script>
   
-
-        <div id="root">
-
-
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick= "hacerClick()">
-                Agregar al mapa
-            </button>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-                </div>
-            </div>
-
-        </div>
-
-    </body>
+</head>
+<body>
+    <!--Body-->
+    <div id="viewDiv"></div>
+    
+</body>
 </html>
