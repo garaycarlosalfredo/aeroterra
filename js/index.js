@@ -1,6 +1,6 @@
 var usuario = ''
 
-console.log(process.env.API_KEY)
+console.log(key)
 
 try {
     usuario = localStorage.getItem("Nombre");  
