@@ -34,6 +34,11 @@
             "esri/Basemap",
             "esri/layers/VectorTileLayer",
             "esri/layers/TileLayer",
+            //Para agregar un punto
+            "esri/Graphic",
+            "esri/layers/GraphicsLayer"
+            
+
         ], function (
             esriConfig,
             Map, 
@@ -41,7 +46,10 @@
             //Modulos para ver las calles
             Basemap, 
             VectorTileLayer, 
-            TileLayer
+            TileLayer,
+            //Para agregar un punto
+            Graphic, 
+            GraphicsLayer
             ) {
 
         esriConfig.apiKey = key;
@@ -85,6 +93,48 @@
           zoom: 13, // Zoom level
           container: "viewDiv" // Div element
         });
+
+        //Pop up
+        const popupTemplate = {
+            title: "{Name}",
+            content: "{Description}"
+        }
+        const attributes = {
+            Name: "Graphic",
+            Description: "I am a polygon"
+        }
+
+        //Para agregar un punto
+        const graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
+
+        //Para agregar un punto 
+        const point = { //Create a point
+            type: "point",
+            longitude: -118.80657463861,
+            latitude: 34.0005930608889
+        };
+        const simpleMarkerSymbol = {
+            type: "simple-marker",
+            color: [226, 119, 40],  // Orange
+            outline: {
+                color: [255, 255, 255], // White
+                width: 1
+            }
+        };
+
+        const pointGraphic = new Graphic({
+            geometry: point,
+            symbol: simpleMarkerSymbol,
+            //Agregar
+            attributes: attributes,
+            popupTemplate: popupTemplate
+        });
+        graphicsLayer.add(pointGraphic);
+
+
+
+        
 
       });
     </script>
