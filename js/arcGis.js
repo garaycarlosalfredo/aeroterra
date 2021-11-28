@@ -1,5 +1,5 @@
 var map
-
+var view
     function mapa(){
     
         require([
@@ -12,7 +12,10 @@ var map
             "esri/layers/TileLayer",
             //Para agregar un punto
             "esri/Graphic",
-            "esri/layers/GraphicsLayer"
+            "esri/layers/GraphicsLayer",
+
+            //view
+            "esri/views/View"
             
 
         ], function (
@@ -25,7 +28,10 @@ var map
             TileLayer,
             //Para agregar un punto
             Graphic, 
-            GraphicsLayer
+            GraphicsLayer,
+
+            //View
+            View
             ) {
 
         esriConfig.apiKey = key;
@@ -39,86 +45,38 @@ var map
         });
 
         //Creo una imagen del vetor 
-        const imageTileLayer = new TileLayer({
-            portalItem: {
-            id: "1b243539f4514b6ba35e7d995890db1d" // World Hillshade
-            }
-        });
+            const imageTileLayer = new TileLayer({
+                portalItem: {
+                id: "1b243539f4514b6ba35e7d995890db1d" // World Hillshade
+                }
+            });
 
         //Agrego las capas base del mapa
-        const basemap = new Basemap({
-            baseLayers: [
+            const basemap = new Basemap({
+                baseLayers: [
 
-            imageTileLayer,
-            vectorTileLayer
+                imageTileLayer,
+                vectorTileLayer
 
-            ]
-        });
+                ],
+            });
 
 
         //Create Map
-        map = new Map({
-            basemap: basemap,//Base de la capa creada para las lineas
-            //basemap: "arcgis-topographic" // Basemap layer service
-        });
+            map = new Map({
+                basemap: basemap,//Base de la capa creada para las lineas
+                //basemap: "arcgis-topographic" // Basemap layer service
+            });
 
         //Create Map View
-        const view = new MapView({
-            map: map,
-            center: [-58.435698,-34.606941], // Longitude, latitude
-            zoom: 13, // Zoom level
-            container: "viewDiv" // Div element
-        });
-
-        //Pop up
-        const popupTemplate = {
-            title: "{Name}",
-            content: "{Description}"
-        }
-        const attributes = {
-            Name: "Graphic",
-            Description: "I am a polygon"
-        }
-
-        //Para agregar un punto
-        const graphicsLayer = new GraphicsLayer();
-        map.add(graphicsLayer);
-
-        //Para agregar un punto 
-        const point = { //Create a point
-            type: "point",
-            longitude: -34.590924,
-            latitude: -58.459808
-        };
-        const simpleMarkerSymbol = {
-            type: "simple-marker",
-            color: [226, 119, 40],  // Orange
-            outline: {
-                color: [255, 255, 255], // White
-                width: 1
-            }
-        };
-
-        const pointGraphic = new Graphic({
-            geometry: point,
-            symbol: simpleMarkerSymbol,
-            //Agregar
-            attributes: attributes,
-            popupTemplate: popupTemplate
-        });
-        //graphicsLayer.add(pointGraphic);
+            view = new MapView({
+                map: map,
+                center: [-58.435698,-34.606941], // Longitude, latitude
+                zoom: 13, // Zoom level
+                container: "viewDiv" // Div element
+            });
 
         });
-    }
-
-    function checkPint(e){   
-       /* console.log(e)
-        const form = document.getElementById("formulario")
-        //console.log(form)
-
-        const coordenadasForm = form.elements['coordenadas'].value
-        const coordenadas = coordenadasForm.split(',')
-        console.log(coordenadas)*/
     }
 
   function addPoint(){
@@ -193,7 +151,7 @@ var map
        latitude: latitude
    };
 
-   var color = [211, 214, 19]
+   var color = [25, 185, 209]
    if(colorForm === 'Azul') color = [18, 16, 158]
    if(colorForm === 'Rojo') color = [181, 32, 9]
    if(colorForm === 'Verde') color = [23, 87, 12]
@@ -228,3 +186,12 @@ function addPoint(){
     console.log('MAPA AA',map)
     alert("Click")
 }*/
+function click(){
+   // Set up a click event handler and retrieve the screen point
+    view.on("click", function(event) {
+        // the hitTest() checks to see if any graphics in the view
+        // intersect the given screen x, y coordinates
+        view.hitTest(event)
+        .then(getGraphics);
+    });
+}
