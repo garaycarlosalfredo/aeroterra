@@ -1,4 +1,4 @@
-var usuario = ''
+/*var usuario = ''
 
 console.log(key)
 
@@ -16,3 +16,4 @@ if(usuario === null){
 function hacerClick() {
     console.log( "Ejecutando función test()" );
 }
+*/
