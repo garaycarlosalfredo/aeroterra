@@ -18,6 +18,9 @@
         <script src="./js/arcGis.js"></script>
 
     <!--[GIS]-->
+
+
+    
         <!--Style -->
         <style>
             html,
@@ -46,19 +49,19 @@
         <div>
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formularioModal">
                 Agregar un punto de interes
             </button>
   
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="formularioModal" name="formularioModal" tabindex="-1" aria-labelledby="formularioModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Agregar un punto</h5>
+                    <h5 class="modal-title" id="formularioModalLabel">Agregar un punto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" id="myInput">
                         <!--Formulario para agregar un punto-->
 
                         <form class="row g-3 needs-validation" id="formulario" novalidate>
@@ -92,8 +95,8 @@
                               </select>
                             </div>
                             <div class="col-md-12">
-                              <label for="validationCustom03" class="form-label">Coordenadas</label>
-                              <input type="text" class="form-control" id="validationCustom03" value="-34.595986,-58.3724715" name="coordenadas" required>
+                              <label for="validationCustom03"  class="form-label">Coordenadas</label>
+                              <input type="text" class="form-control" id="coordenadas" value="-34.595986,-58.3724715" name="coordenadas" required>
                               <div class="invalid-feedback">
                               </div>
                             </div>

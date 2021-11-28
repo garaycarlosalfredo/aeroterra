@@ -1,88 +1,125 @@
 var map
 var view
-    function mapa(){
-    
-        require([
-            "esri/config",
-            "esri/Map", 
-            "esri/views/MapView",
-            //Modulos para ver las calles
-            "esri/Basemap",
-            "esri/layers/VectorTileLayer",
-            "esri/layers/TileLayer",
-            //Para agregar un punto
-            "esri/Graphic",
-            "esri/layers/GraphicsLayer",
+function mapa(){
 
-            //view
-            "esri/views/View"
+    require([
+        "esri/config",
+        "esri/Map", 
+        "esri/views/MapView",
+        //Modulos para ver las calles
+        "esri/Basemap",
+        "esri/layers/VectorTileLayer",
+        "esri/layers/TileLayer",
+        //Para agregar un punto
+        "esri/Graphic",
+        "esri/layers/GraphicsLayer",
+
+        //view
+        "esri/views/View"
+        
+
+    ], function (
+        esriConfig,
+        Map, 
+        MapView,
+        //Modulos para ver las calles
+        Basemap, 
+        VectorTileLayer, 
+        TileLayer,
+        //Para agregar un punto
+        Graphic, 
+        GraphicsLayer,
+
+        //View
+        View
+        ) {
+
+    esriConfig.apiKey = key;
+
+    //Creo la capa del vector
+    const vectorTileLayer = new VectorTileLayer({
+        portalItem: {
+        id: "6976148c11bd497d8624206f9ee03e30" // Forest and Parks Canvas
+        },
+        opacity: .75
+    });
+
+    //Creo una imagen del vetor 
+        const imageTileLayer = new TileLayer({
+            portalItem: {
+            id: "1b243539f4514b6ba35e7d995890db1d" // World Hillshade
+            }
+        });
+
+    //Agrego las capas base del mapa
+        const basemap = new Basemap({
+            baseLayers: [
+
+            imageTileLayer,
+            vectorTileLayer
+
+            ],
+        });
+
+
+    //Create Map
+        map = new Map({
+            basemap: basemap,//Base de la capa creada para las lineas
+            //basemap: "arcgis-topographic" // Basemap layer service
+        });
+
+    //Create Map View
+        view = new MapView({
+            map: map,
+            center: [-58.435698,-34.606941], // Longitude, latitude
+            zoom: 13, // Zoom level
+            container: "viewDiv" // Div element
+        });
+
+
+
+        // Get the screen point from the view's click event
+        view.on("click", function (event) {
+
+            //console.log(event.x)
+            //console.log(event.y)
             
 
-        ], function (
-            esriConfig,
-            Map, 
-            MapView,
-            //Modulos para ver las calles
-            Basemap, 
-            VectorTileLayer, 
-            TileLayer,
-            //Para agregar un punto
-            Graphic, 
-            GraphicsLayer,
-
-            //View
-            View
-            ) {
-
-        esriConfig.apiKey = key;
-
-        //Creo la capa del vector
-        const vectorTileLayer = new VectorTileLayer({
-            portalItem: {
-            id: "6976148c11bd497d8624206f9ee03e30" // Forest and Parks Canvas
-            },
-            opacity: .75
         });
 
-        //Creo una imagen del vetor 
-            const imageTileLayer = new TileLayer({
-                portalItem: {
-                id: "1b243539f4514b6ba35e7d995890db1d" // World Hillshade
-                }
-            });
 
-        //Agrego las capas base del mapa
-            const basemap = new Basemap({
-                baseLayers: [
 
-                imageTileLayer,
-                vectorTileLayer
+        view.on("hold", function(event) {
 
-                ],
+            const modal = document.getElementById("coordenadas")
+            modal.setAttribute('value',event.mapPoint.latitude+','+event.mapPoint.longitude)
+
+            var myModal = new bootstrap.Modal(document.getElementById('formularioModal'), {focus: true})
+            myModal.toggle()
+
             });
 
 
-        //Create Map
-            map = new Map({
-                basemap: basemap,//Base de la capa creada para las lineas
-                //basemap: "arcgis-topographic" // Basemap layer service
-            });
+                        
+    });
+}
 
-        //Create Map View
-            view = new MapView({
-                map: map,
-                center: [-58.435698,-34.606941], // Longitude, latitude
-                zoom: 13, // Zoom level
-                container: "viewDiv" // Div element
-            });
 
-        });
-    }
+
 
   function addPoint(){
+      /*
+    if(x === undefined && y === undefined){
+        console.log("No hay puntos")
+    }else{
+        console.log(x,y)
+    }
+*/
+
 
     //Obtengo los datos del formulario
     const form = document.getElementById("formulario")
+
     const nombre = form.elements['nombre'].value
     const direccion = form.elements['direccion'].value
     const telefono = form.elements['telefono'].value
@@ -95,6 +132,8 @@ var view
     const latitude = coordenadas[0]
     const longitude = coordenadas[1]
    
+console.log(coordenadas)
+
     require([
        "esri/config",
        "esri/Map", 
@@ -156,7 +195,6 @@ var view
    if(colorForm === 'Rojo') color = [181, 32, 9]
    if(colorForm === 'Verde') color = [23, 87, 12]
 
-   console.log(color)
 
 
    const simpleMarkerSymbol = {
@@ -179,19 +217,4 @@ var view
    graphicsLayer.add(pointGraphic);
  });
 }
-/*
-function addPoint(){    
-    //graphicsLayer.add(pointGraphic);
-    
-    console.log('MAPA AA',map)
-    alert("Click")
-}*/
-function click(){
-   // Set up a click event handler and retrieve the screen point
-    view.on("click", function(event) {
-        // the hitTest() checks to see if any graphics in the view
-        // intersect the given screen x, y coordinates
-        view.hitTest(event)
-        .then(getGraphics);
-    });
-}
+
