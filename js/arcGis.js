@@ -1,5 +1,9 @@
 var map
 var view
+var graphicsLayer
+var pointList = []
+
+
 function mapa(){
 
     require([
@@ -80,11 +84,8 @@ function mapa(){
 
         // Get the screen point from the view's click event
         view.on("click", function (event) {
-
             //console.log(event.x)
-            //console.log(event.y)
-            
-
+            //console.log(event.y)          
         });
 
 
@@ -95,7 +96,6 @@ function mapa(){
 
             const imput = document.getElementById("coordenadas")
             imput.setAttribute('value',event.mapPoint.latitude+','+event.mapPoint.longitude)
-            console.log(imput)
 
             });
 
@@ -108,14 +108,6 @@ function mapa(){
 
 
   function addPoint(){
-      /*
-    if(x === undefined && y === undefined){
-        console.log("No hay puntos")
-    }else{
-        console.log(x,y)
-    }
-*/
-
 
     //Obtengo los datos del formulario
     const form = document.getElementById("formulario")
@@ -180,7 +172,7 @@ function mapa(){
         }
     
     //Para agregar un punto
-    const graphicsLayer = new GraphicsLayer();
+    graphicsLayer = new GraphicsLayer();
     map.add(graphicsLayer);
 
     //Para agregar un punto 
@@ -213,10 +205,75 @@ function mapa(){
         attributes: attributes,
         popupTemplate: popupTemplate
     });
-
+    pointList.push(pointGraphic)
     graphicsLayer.add(pointGraphic);
+
  });
 
     
 }
 
+function removePoint(){
+    console.log("CICJK")
+
+    //Obtengo los datos del formulario
+        //const puntoEliminar = pointList[0]
+        const puntoEliminar = pointList[pointList.length-1]
+
+        console.log('Punto a eliminar = ',puntoEliminar)
+
+
+        require([
+        "esri/config",
+        "esri/Map", 
+        "esri/views/MapView",
+        //Modulos para ver las calles
+        "esri/Basemap",
+        "esri/layers/VectorTileLayer",
+        "esri/layers/TileLayer",
+        //Para agregar un punto
+        "esri/Graphic",
+        "esri/layers/GraphicsLayer",
+        //PopUp
+        "esri/popup/content/FieldsContent"
+
+        ], function (
+        esriConfig,
+        Map, 
+        MapView,
+        //Modulos para ver las calles
+        Basemap, 
+        VectorTileLayer, 
+        TileLayer,
+        //Para agregar un punto
+        Graphic, 
+        GraphicsLayer,
+        //Popup
+        FieldsContent
+        ) {
+
+        esriConfig.apiKey = key;
+
+
+
+    //Para agregar un punto
+    //const graphicsLayer = new GraphicsLayer();
+    console.log('graphicsLayer : ',graphicsLayer)
+
+
+    for (let index = 0; index < pointList.length; index++) {
+        const element = pointList[index];
+        if(element === puntoEliminar){
+            pointList.splice(index, 1)
+        }
+    }
+    
+    map.graphicsLayer.remove(puntoEliminar);
+
+    //console.log(pointList[0])
+    console.log('graphicsLayer : ',graphicsLayer)
+    console.log('lista de puntos = ',pointList)
+ });
+
+    
+}

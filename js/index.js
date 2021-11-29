@@ -1,27 +1,5 @@
-/*var usuario = ''
-
-console.log(key)
-
-try {
-    usuario = localStorage.getItem("Nombre");  
-} catch (error) {
-
-}
-if(usuario === null){
-    usuario = prompt('Nos dirías tu nombre?', 'nombre');
-    alert("Bienvenido = " + usuario)
-}
-
-
-function hacerClick() {
-    console.log( "Ejecutando función test()" );
-}
-*/
-
 
 function checkCoordenadas(){
-
-
     //Obtengo los datos del formulario
     const form = document.getElementById("formulario")
     const coordenadasForm = form.elements['coordenadas'].value
@@ -29,8 +7,7 @@ function checkCoordenadas(){
     //Gestion de coordenadas
     const coordenadas = coordenadasForm.split(',')
     const latitude = coordenadas[0]
-    const longitude = coordenadas[1]
-   
+    const longitude = coordenadas[1]   
 
     var button= document.getElementById('BotonAgregarPunto')
 
@@ -46,5 +23,20 @@ function checkCoordenadas(){
         button.setAttribute("disabled", "");
         alert("Latitud debe estar dentro del rago de -90 a 90")        
     };
+}
 
+function checkCategoria(){
+    //Obtengo los datos del formulario
+    const form = document.getElementById("formulario")
+    const categoria = form.elements['categoria'].value
+    console.log(categoria)
+
+    var button= document.getElementById('BotonAgregarPunto')
+    if(categoria !== 'Seleccionar'){     
+        button.removeAttribute('disabled') 
+    }else{              
+        button.setAttribute("disabled", "");
+        alert("Debe seleccionar una categoría")
+    };
+    
 }

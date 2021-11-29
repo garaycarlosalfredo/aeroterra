@@ -49,7 +49,10 @@
 <body>
     <div class="container">
         <div>
-
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" onclick="removePoint()">
+              Eliminar
+            </button>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formularioModal">
                 Agregar un punto de interes
@@ -89,7 +92,7 @@
                             </div>
                             <div>
                               <label for="validationCustom03" class="form-label">Categoría</label>
-                              <select class="form-select" aria-label="Default select example" name="categoria">
+                              <select onchange="checkCategoria()" class="form-select" aria-label="Default select example" name="categoria" >
                                 <option selected>Seleccionar</option>
                                 <option value="Comercial">Comercial</option>
                                 <option value="Residencial">Residencial</option>
@@ -116,7 +119,7 @@
                     </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
-                        <button type="button" id="BotonAgregarPunto" class="btn btn-primary btn-sm" data-bs-dismiss="modal" onclick="addPoint()" >
+                        <button type="button" id="BotonAgregarPunto" class="btn btn-primary btn-sm" data-bs-dismiss="modal" onclick="addPoint()" disabled>
                             Agregar Punto  <i class="bi bi-plus-circle"></i>
                         </button>
                     </div>
@@ -128,6 +131,5 @@
         <!--Body-->
     </div>
     <div id="viewDiv"></div>
-    <div id="basemapGalleryDiv"></div>
 </body>
 </html>
