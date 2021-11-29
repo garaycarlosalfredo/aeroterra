@@ -17,6 +17,8 @@
         <script src="./js/index.js"></script>
         <script src="./js/arcGis.js"></script>
 
+    <!--Efectos de alertas-->
+
     <!--[GIS]-->
 
 
@@ -74,14 +76,14 @@
                             </div>
                             <div class="col-md-12">
                               <label for="validationCustom02" class="form-label">Dirección</label>
-                              <input type="text" class="form-control" id="validationCustom02" value=" Av. Eduardo Madero 1020, C1001 CABA" name="direccion" required>
+                              <input type="text" class="form-control" id="direccion" value=" Av. Eduardo Madero 1020, C1001 CABA" name="direccion" required>
                               <div class="valid-feedback">
                                 Looks good!
                               </div>
                             </div>
                             <div class="col-md-12">
                               <label for="validationCustom03" class="form-label">Teléfono</label>
-                              <input type="text" class="form-control" id="validationCustom03" value="54 9 11 5272 0900" name="telefono" required>
+                              <input type="text" class="form-control" id="telefono" value="54 9 11 5272 0900" name="telefono" required>
                               <div class="invalid-feedback">
                               </div>
                             </div>
@@ -96,7 +98,7 @@
                             </div>
                             <div class="col-md-12">
                               <label for="validationCustom03"  class="form-label">Coordenadas</label>
-                              <input type="text" class="form-control" id="coordenadas" value="-34.595986,-58.3724715" name="coordenadas" required>
+                              <input type="text" class="form-control" id="coordenadas" value="-34.595986,-58.3724715" name="coordenadas" onchange="checkCoordenadas()" required>
                               <div class="invalid-feedback">
                               </div>
                             </div>
@@ -114,7 +116,7 @@
                     </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal" onclick="addPoint()">
+                        <button type="button" id="BotonAgregarPunto" class="btn btn-primary btn-sm" data-bs-dismiss="modal" onclick="addPoint()" >
                             Agregar Punto  <i class="bi bi-plus-circle"></i>
                         </button>
                     </div>

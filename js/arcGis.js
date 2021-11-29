@@ -90,12 +90,12 @@ function mapa(){
 
 
         view.on("hold", function(event) {
-
-            const modal = document.getElementById("coordenadas")
-            modal.setAttribute('value',event.mapPoint.latitude+','+event.mapPoint.longitude)
-
             var myModal = new bootstrap.Modal(document.getElementById('formularioModal'), {focus: true})
-            myModal.toggle()
+            myModal.show()
+
+            const imput = document.getElementById("coordenadas")
+            imput.setAttribute('value',event.mapPoint.latitude+','+event.mapPoint.longitude)
+            console.log(imput)
 
             });
 
@@ -132,89 +132,91 @@ function mapa(){
     const latitude = coordenadas[0]
     const longitude = coordenadas[1]
    
-console.log(coordenadas)
-
-    require([
-       "esri/config",
-       "esri/Map", 
-       "esri/views/MapView",
-       //Modulos para ver las calles
-       "esri/Basemap",
-       "esri/layers/VectorTileLayer",
-       "esri/layers/TileLayer",
-       //Para agregar un punto
-       "esri/Graphic",
-       "esri/layers/GraphicsLayer",
-       //PopUp
-       "esri/popup/content/FieldsContent"
-
-   ], function (
-       esriConfig,
-       Map, 
-       MapView,
-       //Modulos para ver las calles
-       Basemap, 
-       VectorTileLayer, 
-       TileLayer,
-       //Para agregar un punto
-       Graphic, 
-       GraphicsLayer,
-       //Popup
-       FieldsContent
-       ) {
-
-   esriConfig.apiKey = key;
 
 
-   //Pop up
-   const popupTemplate = {
-       title: "{Name}",
-       content: `<b>Nombre :</b> {Direccion}<br><b>Coordenadas :</b> {Coordenadas}<br><b>Telefono:</b> {Telefono}<br><b>Categoría:</b> {Categoria}<br>`,
-   }
-   const attributes = {
-        Name: nombre,
-        Direccion: direccion,
-        Coordenadas: coordenadas,
-        Telefono : telefono,
-        Categoria : categoria
+        require([
+        "esri/config",
+        "esri/Map", 
+        "esri/views/MapView",
+        //Modulos para ver las calles
+        "esri/Basemap",
+        "esri/layers/VectorTileLayer",
+        "esri/layers/TileLayer",
+        //Para agregar un punto
+        "esri/Graphic",
+        "esri/layers/GraphicsLayer",
+        //PopUp
+        "esri/popup/content/FieldsContent"
+
+        ], function (
+        esriConfig,
+        Map, 
+        MapView,
+        //Modulos para ver las calles
+        Basemap, 
+        VectorTileLayer, 
+        TileLayer,
+        //Para agregar un punto
+        Graphic, 
+        GraphicsLayer,
+        //Popup
+        FieldsContent
+        ) {
+
+        esriConfig.apiKey = key;
+
+
+    //Pop up
+    const popupTemplate = {
+        title: "{Name}",
+        content: `<b>Nombre :</b> {Direccion}<br><b>Coordenadas :</b> {Coordenadas}<br><b>Telefono:</b> {Telefono}<br><b>Categoría:</b> {Categoria}<br>`,
     }
- 
-   //Para agregar un punto
-   const graphicsLayer = new GraphicsLayer();
-   map.add(graphicsLayer);
+    const attributes = {
+            Name: nombre,
+            Direccion: direccion,
+            Coordenadas: coordenadas,
+            Telefono : telefono,
+            Categoria : categoria
+        }
+    
+    //Para agregar un punto
+    const graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
 
-   //Para agregar un punto 
-   const point = { //Create a point
-       type: "point",
-       longitude: longitude,
-       latitude: latitude
-   };
+    //Para agregar un punto 
+    const point = { //Create a point
+        type: "point",
+        longitude: longitude,
+        latitude: latitude
+    };
 
-   var color = [25, 185, 209]
-   if(colorForm === 'Azul') color = [18, 16, 158]
-   if(colorForm === 'Rojo') color = [181, 32, 9]
-   if(colorForm === 'Verde') color = [23, 87, 12]
+    var color = [25, 185, 209]
+    if(colorForm === 'Azul') color = [18, 16, 158]
+    if(colorForm === 'Rojo') color = [181, 32, 9]
+    if(colorForm === 'Verde') color = [23, 87, 12]
 
 
 
-   const simpleMarkerSymbol = {
-       type: "simple-marker",
-       color: color,  // Orange
-       outline: {
-           color: [255, 255, 255], // White
-           width: 1
-       }
-   };
+    const simpleMarkerSymbol = {
+        type: "simple-marker",
+        color: color,  // Orange
+        outline: {
+            color: [255, 255, 255], // White
+            width: 1
+        }
+    };
 
-   const pointGraphic = new Graphic({
-       geometry: point,
-       symbol: simpleMarkerSymbol,
-       //Agregar
-       attributes: attributes,
-       popupTemplate: popupTemplate
-   });
+    const pointGraphic = new Graphic({
+        geometry: point,
+        symbol: simpleMarkerSymbol,
+        //Agregar
+        attributes: attributes,
+        popupTemplate: popupTemplate
+    });
 
-   graphicsLayer.add(pointGraphic);
+    graphicsLayer.add(pointGraphic);
  });
+
+    
 }
 
