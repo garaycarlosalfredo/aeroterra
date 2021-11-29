@@ -30,12 +30,6 @@ function mapa(){
         Basemap, 
         VectorTileLayer, 
         TileLayer,
-        //Para agregar un punto
-        Graphic, 
-        GraphicsLayer,
-
-        //View
-        View
         ) {
 
     esriConfig.apiKey = key;
@@ -80,10 +74,15 @@ function mapa(){
             container: "viewDiv" // Div element
         });
 
-
-
-        // Get the screen point from the view's click event
+    // Get the screen point from the view's click event
         view.on("click", function (event) {
+            //console.log(map)
+
+            /*
+            for (var j=0, jl=map.layerIds.length; j<jl; j++) {
+                var currentLayer = myMap.getLayer(myMap.layerIds[j]);
+                alert("id: " + currentLayer.id);
+              }*/
             //console.log(event.x)
             //console.log(event.y)          
         });
@@ -98,8 +97,6 @@ function mapa(){
             imput.setAttribute('value',event.mapPoint.latitude+','+event.mapPoint.longitude)
 
             });
-
-
                         
     });
 }
@@ -208,6 +205,8 @@ function mapa(){
     pointList.push(pointGraphic)
     graphicsLayer.add(pointGraphic);
 
+    console.log(graphicsLayer)
+
  });
 
     
@@ -217,8 +216,8 @@ function removePoint(){
     console.log("CICJK")
 
     //Obtengo los datos del formulario
-        //const puntoEliminar = pointList[0]
-        const puntoEliminar = pointList[pointList.length-1]
+        const puntoEliminar = pointList[0]
+        //const puntoEliminar = pointList[pointList.length-1]
 
         console.log('Punto a eliminar = ',puntoEliminar)
 
@@ -268,7 +267,7 @@ function removePoint(){
         }
     }
     
-    map.graphicsLayer.remove(puntoEliminar);
+    graphicsLayer.remove(puntoEliminar);
 
     //console.log(pointList[0])
     console.log('graphicsLayer : ',graphicsLayer)
